@@ -1,0 +1,1 @@
+<img alt="Hydro Label" class="w-[30dvw]" src="/home/products/hydro-label.png" />

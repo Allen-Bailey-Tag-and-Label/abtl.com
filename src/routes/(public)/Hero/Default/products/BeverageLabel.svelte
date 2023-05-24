@@ -1,0 +1,1 @@
+<img alt="Beverage Label" class="w-[35dvw]" src="/home/products/beverage-label.png"/>

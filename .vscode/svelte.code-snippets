@@ -1,0 +1,57 @@
+{
+    "@component": {
+        "prefix": "@component",
+        "body": [
+          "<script lang=\"ts\">",
+          "\t// imports",
+          "\timport { current_component } from 'svelte/internal';",
+          "\timport { twMerge } from 'tailwind-merge';",
+          "\timport { getEvents, use as useAction } from 'sveltewind/actions';",
+          "\timport { theme } from 'sveltewind/stores';",
+          "\t",
+          "\t// handlers",
+          "\t",
+          "\t// helpers",
+          "\t",
+          "\t// props (internal)",
+          "\tconst events = getEvents(current_component);",
+          "\t",
+          "\t// props (external)",
+          "\texport let style = undefined;",
+          "\texport let use = [];",
+          "\t$2",
+          "\t// props (dynamic)",
+          "\t\\$: classes = twMerge('', \\$theme.${1:div}, \\$\\$props.class);",
+          "</script>",
+          "",
+          "<${1:div} class={classes} {style} use:useAction={[events, ...use]}>",
+          "\t<slot/>",
+          "</${1:div}>"
+        ]
+      },
+    "@sveltewindComponent": {
+        "prefix": "@sveltewindComponent",
+        "body": [
+          "<script lang=\"ts\">",
+          "\timport { getEvents } from 'sveltewind/actions';",
+          "\timport { $1 } from 'sveltewind/components';",
+          "\timport { current_component } from 'svelte/internal';",
+          "\timport { twMerge } from 'tailwind-merge';",
+          "\t",
+          "\t// props (internal)",
+          "\tconst events = getEvents(current_component);",
+          "\t",
+          "\t// props (external)",
+          "\texport let style: undefined | string = undefined;",
+          "\texport let use: any[] = [];",
+          "\t$2",
+          "\t// props (dynamic)",
+          "\t\\$: classes = twMerge(\\$\\$props.class);",
+          "</script>",
+          "",
+          "<$1 class={classes} {style} use={[events, ...use]}>",
+          "\t<slot/>",
+          "</$1>"
+        ]
+      },
+}

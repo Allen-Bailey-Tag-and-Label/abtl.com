@@ -1,0 +1,1 @@
+export { paperColors } from './paperColors';
