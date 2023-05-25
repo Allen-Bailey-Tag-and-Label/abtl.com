@@ -4,6 +4,9 @@
 	import Customizer from '../Customizer.svelte';
 	import settings from '../settings';
 
+	// props (external)
+	export let data;
+
 	// props (internal)
 	let closeNav = () => (isOpen = false);
 	let isOpen: boolean = false;
@@ -17,7 +20,7 @@
 	<Main>
 		<slot />
 		<Footer />
-		<Header bind:isOpen {closeNav} {toggleNav} />
+		<Header bind:isOpen {closeNav} {toggleNav} user={data?.user} />
 	</Main>
 </div>
 

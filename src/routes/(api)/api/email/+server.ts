@@ -1,5 +1,4 @@
 import { promises as fs } from 'fs';
-import inlineCss from 'inline-css';
 import handlebars from 'handlebars';
 import nodemailer from 'nodemailer';
 import { NODEMAILER_PASSWORD } from '$env/static/private';
@@ -31,7 +30,8 @@ export const POST = async ({ request }) => {
 	});
 
 	// get html from template
-	const html = await inlineCss(handlebarsReplacements(await getTemplate(template), replacements));
+	const html = handlebarsReplacements(await getTemplate(template), replacements);
+	// const html = await inlineCss(handlebarsReplacements(await getTemplate(template), replacements));
 
 	// setup options
 	const options = {

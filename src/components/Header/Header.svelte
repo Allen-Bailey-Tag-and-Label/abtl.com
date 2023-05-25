@@ -1,9 +1,10 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
 	import { twMerge } from 'tailwind-merge';
 	import { Header } from 'sveltewind/components';
 	import { theme } from 'sveltewind/stores';
-	import { A, Container, Div, Logo, Nav } from '$components';
+	import { A, Button, Container, Div, Icon, Icons, Logo, Nav } from '$components';
 	import settings from '../../routes/settings';
 
 	// handlers
@@ -15,6 +16,7 @@
 	export let closeNav: Function;
 	export let isOpen: boolean;
 	export let toggleNav: Function;
+	export let user;
 
 	// props (internal)
 	let lastY: number = 0;
@@ -43,11 +45,11 @@
 		if (scrollY <= lastY) hideHeader = false;
 		lastY = scrollY;
 	}
-	$: signInClasses = twMerge(
+	$: primaryClasses = twMerge(
 		$theme.button,
 		'whitespace-nowrap font-normal hidden lg:block before:hidden hover:from-primary-600 hover:to-primary-600'
 	);
-	$: signUpClasses = twMerge(
+	$: secondaryClasses = twMerge(
 		$theme.button,
 		'font-normal py-[calc(.5rem_-_2px)] hidden lg:block from-transparent to-transparent bg-transparent hover:bg-transparent focus:bg-transparent before:hidden text-current border-2 border-gray-700/[.5] dark:border-white/[.5] hover:border-gray-700 focus:border-gray-700 dark:hover:border-white dark:focus:border-white focus:ring-transparent'
 	);
@@ -65,10 +67,19 @@
 			</svelte:component>
 			<Nav.Menu {closeNav} />
 
-			<div class="flex space-x-[1rem] items-center">
-				<A class={signUpClasses} href="/sign-up">Sign Up</A>
-				<A class={signInClasses} href="/sign-in">Sign In</A>
-			</div>
+			{#if !user}
+				<div class="flex space-x-[1rem] items-center">
+					<A class={secondaryClasses} href="/sign-up">Sign Up</A>
+					<A class={primaryClasses} href="/sign-in">Sign In</A>
+				</div>
+			{:else}
+				<div class="flex space-x-[1rem] items-center">
+					<form action="/logout" method="POST" use:enhance>
+						<Button class={secondaryClasses} href="/sign-up" type="submit">Log Out</Button>
+					</form>
+					<A class={primaryClasses} href="/sign-in">My Account</A>
+				</div>
+			{/if}
 		</div>
 	</Container>
 </Header>

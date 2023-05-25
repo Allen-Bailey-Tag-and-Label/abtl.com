@@ -4,7 +4,7 @@
 		<link rel="icon" href="http://10.11.10.23:1234/favicon.png" />
 		<meta name="viewport" content="width=device-width" />
 
-		<title>Verify Email - Email Templates - Allen-Bailey Tag &amp; Label</title>
+		<title>Verify Password - Email Templates - Allen-Bailey Tag &amp; Label</title>
 		<style
 			type="text/css"
 			data-vite-dev-id="/Users/McAleavey/Documents/code/abtl/abtl.com/src/app.postcss"
@@ -1219,6 +1219,10 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
 
 			.divide-white\/\[\.15\] > :not([hidden]) ~ :not([hidden]) {
 				border-color: rgb(255 255 255 / 0.15);
+			}
+
+			.self-end {
+				align-self: flex-end;
 			}
 
 			.overflow-auto {
@@ -3611,14 +3615,13 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
 								</g></svg
 							><!--<Logo>-->
 						</div>
-						<h1 class="text-[2rem] leading-[2rem] font-serif font-semibold">{{code}}</h1>
 						<p class="text-[1rem] leading-[1.5rem]">
-							Please use the code above to verify your email
+							Please click the link below to reset your password
 						</p>
 						<a
 							class="relative before:rounded-none before:ring before:ring-blue-500/0 before:transition-all before:duration-200 before:bottom-[-.25rem] before:left-1/2 before:transform before:translate-x-[-50%] before:absolute before:content-[&quot;&quot;] before:h-[1px] before:w-full before:bg-blue-500 before:z-[-1] hover:before:h-[calc(100%+1rem)] hover:before:bottom-[-.5rem] hover:before:w-[calc(100%+1.5rem)] hover:before:bg-blue-600 focus:before:h-[calc(100%+1rem)] focus:before:bottom-[-.5rem] focus:before:w-[calc(100%+1.5rem)] focus:before:bg-blue-600 focus:before:ring-blue-500/30 hover:before:rounded focus:before:rounded font-semibold hover:text-white focus:text-white before:hidden bg-gradient-to-r bg-repeat-x bg-left-bottom from-primary-500 to-primary-500 flex justify-center items-center py-[.5rem] text-white transition duration-200 outline-none ring ring-transparent rounded-full px-[2rem] bg-primary-500 hover:bg-primary-600 focus:bg-primary-600 focus:ring-primary-500/[.3]"
-							href="{{PUBLIC_BASE_PATH}}/verify-email?user_id={{user_id}}"
-							>Verify Email</a
+							href="{{PUBLIC_BASE_PATH}}/verify-password?code={{code}}&user_id={{user_id}}"
+							>Reset Password</a
 						>
 					</div>
 				</div>
@@ -3627,6 +3630,7 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
 				></div>
 				<!--<RadialGradient>-->
 			</section>
+			<!--<Section>--><!--<+page>-->
 		</div>
 	</body>
 </html>

@@ -12,7 +12,7 @@
 			</div>
 			<H1>{'{{code}}'}</H1>
 			<P>Please use the code above to verify your email</P>
-			<A class={$theme.button} href="{PUBLIC_BASE_PATH}/verify-email?email={'{{email}}'}"
+			<A class={$theme.button} href="{'{{PUBLIC_BASE_PATH}}'}/verify-email?user_id={'{{user_id}}'}"
 				>Verify Email</A
 			>
 		</div>

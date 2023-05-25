@@ -26,6 +26,7 @@ export const GET = async () => {
 
 		await db.sql`CREATE TABLE ${db.sql('user')} (
 		    id uuid DEFAULT uuid_generate_v4 (),
+			active BOOLEAN DEFAULT FALSE,
 		    email VARCHAR NOT NULL UNIQUE,
 		    password VARCHAR NOT NULL,
 		    role_ids uuid[],
@@ -37,8 +38,7 @@ export const GET = async () => {
 			id uuid DEFAULT uuid_generate_v4 (),
 			attempts_remaining SMALLINT NOT NULL DEFAULT 3,
 			code VARCHAR NOT NULL,
-			created_at timestamp NOT NULL DEFAULT NOW(),
-			user_id VARCHAR NOT NULL,
+			user_id VARCHAR NOT NULL UNIQUE,
 			PRIMARY KEY( id )
 		)`;
 	} catch (error) {
