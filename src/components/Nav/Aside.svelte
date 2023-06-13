@@ -1,9 +1,11 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import { MenuItem, menuItems } from './';
 
 	// props (internal)
 	export let closeNav: Function;
 	export let isOpen: boolean;
+	export let user;
 </script>
 
 <aside
@@ -14,4 +16,14 @@
 	{#each menuItems as { href, sub, text }}
 		<MenuItem {closeNav} {href} {sub}>{text}</MenuItem>
 	{/each}
+
+	{#if !user}
+		<MenuItem href="/sign-up">Sign Up</MenuItem>
+		<MenuItem href="/sign-in">Sign In</MenuItem>
+	{:else}
+		<form action="/logout" method="POST" use:enhance>
+			<MenuItem href={undefined} type="submit">Log Out</MenuItem>
+		</form>
+		<MenuItem href="/dashboard">My Account</MenuItem>
+	{/if}
 </aside>

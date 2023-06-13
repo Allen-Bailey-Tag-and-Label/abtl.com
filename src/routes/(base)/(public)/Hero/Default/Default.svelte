@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Container, H1, Section } from '$components';
+	import { Container, H1, IntersectionObserver, Section } from '$components';
 	import { onMount } from 'svelte';
 	import { products } from './products';
 	import Product from './Product.svelte';
@@ -18,6 +18,24 @@
 	// props (internal)
 	let startTimestamp: undefined | number;
 	let delay = 5000;
+	const delays = [
+		'delay-[0ms]',
+		'delay-[100ms]',
+		'delay-[200ms]',
+		'delay-[300ms]',
+		'delay-[400ms]',
+		'delay-[500ms]',
+		'delay-[600ms]',
+		'delay-[700ms]',
+		'delay-[800ms]',
+		'delay-[900ms]',
+		'delay-[1000ms]',
+		'delay-[1100ms]',
+		'delay-[1200ms]',
+		'delay-[1300ms]',
+		'delay-[1400ms]'
+	];
+	const h1TextItems = 'Where customers turn to for their...'.split(' ');
 	let index = Math.floor(Math.random() * products.length);
 	const textClasses = 'text-left';
 
@@ -34,7 +52,7 @@
 	{#if $settings.showBackground}
 		<img
 			alt="Background"
-			class="graconfettiYScale z-[-1] pointer-events-none absolute top-0 left-0 w-full h-full object-cover opacity-[20%] dark:opacity-[10%] invert hue-rotate-180 dark:invert-0 dark:hue-rotate-0"
+			class="z-[-1] pointer-events-none absolute top-0 left-0 w-full h-full object-cover opacity-[20%] dark:opacity-[10%] invert hue-rotate-180 dark:invert-0 dark:hue-rotate-0"
 			src="/pexels-adrien-olichon-2387793.jpg"
 		/>
 		<div
@@ -47,10 +65,24 @@
 	<Container>
 		<div class="flex justify-center lg:justify-start">
 			<div class="flex flex-col space-y-[0rem]">
-				<H1 class="text-[3rem] leading-[1.25em] mb-[1rem] lg:mb-[2rem] lg:text-[4rem] lg:w-[35rem]"
-					>Where customers turn to for their...</H1
+				<H1
+					class="flex flex-wrap text-[3rem] leading-[1.25em] mb-[1rem] lg:mb-[2rem] lg:text-[4rem] lg:w-[35rem]"
 				>
-				<div class="overflow-y-hidden h-[1.5em] text-[2rem] leading-[1.5em] lg:text-[3rem]">
+					{#each h1TextItems as text, i}
+						<IntersectionObserver
+							class="mr-[1rem] lg:mr-[1.5rem] last:mr-0 lg:last:mr-0 duration-[500ms]"
+							{delays}
+							{i}
+						>
+							{text}
+						</IntersectionObserver>
+					{/each}
+				</H1>
+				<IntersectionObserver
+					class="overflow-y-hidden h-[1.5em] text-[2rem] leading-[1.5em] lg:text-[3rem] duration-[500ms]"
+					{delays}
+					i={h1TextItems.length}
+				>
 					<div class="flex flex-col items-start">
 						{#each productsShuffled as { description }}
 							<div
@@ -61,10 +93,16 @@
 							</div>
 						{/each}
 					</div>
-				</div>
+				</IntersectionObserver>
 			</div>
 		</div>
 	</Container>
 	<Blob />
-	<Product {index} {productsShuffled} />
+	<IntersectionObserver
+		class="absolute top-0 left-0 w-[100dvw] h-[100dvh] block pointer-events-none"
+		{delays}
+		i={h1TextItems.length + 5}
+	>
+		<Product {index} {productsShuffled} />
+	</IntersectionObserver>
 </Section>

@@ -2,7 +2,7 @@
 	import { theme } from 'sveltewind/stores';
 	import { twMerge } from 'tailwind-merge';
 	import { page } from '$app/stores';
-	import { A, Div, Icon, Icons, Popover } from '$components';
+	import { A, Button, Div, Icon, Icons, Popover } from '$components';
 
 	// props (internal)
 	let isOpen = false;
@@ -12,24 +12,28 @@
 	export let href: string = '';
 	export let sub: undefined | boolean = undefined;
 	export let tabindex: number | null | undefined = undefined;
+	export let type: undefined | string = undefined;
 
 	$: classes = twMerge(
 		$theme.button,
 		$theme.a,
-		// 'whitespace-nowrap bg-transparent hover:bg-transparent focus:bg-transparent w-full justify-start text-[1.5rem] lg:text-[1rem] focus:before:w-0',
-		'w-full justify-start text-[1.5rem] lg:text-[1rem] hover:text-current focus:text-current rounded-none focus:rounded-full bg-no-repeat whitespace-nowrap bg-transparent hover:bg-transparent focus:bg-transparent bg-[length:0px_2px] hover:bg-[length:100%_2px]',
-		$page.url.pathname === href ? 'bg-[length:100%_2px]' : '',
+		'bg-transparent dark:bg-transparent hover:bg-transparent focus:bg-transparent hover:text-current',
+		'border-none',
+		'before:block before:h-[2px] before:w-0 before:hover:w-full before:focus:w-0 before:hover:h-[2px] before:focus:h-[2px] before:focus:ring-0 before:bottom-0 before:hover:bottom-0 before:focus:bottom-0 before:origin-left',
+		'text-current text-[1.5rem] justify-start lg:text-[1rem]',
+		$page.url.pathname === href ? 'border-primary-500' : '',
 		$$props.class
 	);
 </script>
 
 {#if sub === undefined}
 	<svelte:component
-		this={$page.url.pathname === href ? Div : A}
+		this={type === 'submit' ? Button : $page.url.pathname === href ? Div : A}
 		class={classes}
 		href={$page.url.pathname === href ? undefined : href}
 		on:click={$page.url.pathname === href ? undefined : closeNav}
 		tabindex={$page.url.pathname === href ? -1 : tabindex}
+		type={type === 'submit' ? type : undefined}
 	>
 		<slot />
 	</svelte:component>

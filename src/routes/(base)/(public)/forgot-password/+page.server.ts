@@ -2,6 +2,8 @@ import { fail, redirect } from '@sveltejs/kit';
 import { sql } from '$db';
 import { PUBLIC_BASE_PATH } from '$env/static/public';
 import type { Actions } from './$types';
+import template from '$emailTemplates/verify-password/+page.svelte';
+import { send } from '$lib/email';
 
 export const actions: Actions = {
 	default: async ({ fetch, request }) => {
@@ -28,24 +30,27 @@ export const actions: Actions = {
         insert into ${sql('verification')} ${sql({ code, user_id: user.id }, 'code', 'user_id')}`;
 
 		// send verification code email
-		await fetch('/api/email', {
-			body: JSON.stringify({
-				from: `"No Reply" <abtl.noreply@gmail.com>`,
-				replacements: {
-					code,
-					PUBLIC_BASE_PATH,
-					user_id: user.id
-				},
-				subject: 'Reset Password - abtl.com',
-				template: 'verify-password',
-				to: [email]
-			}),
-			headers: {
-				accept: 'application.json',
-				'content-type': 'application/json'
-			},
-			method: 'POST'
-		});
+		await send(template, 'Reset Password - abtl.com', [email], { code, user_id: user.id });
+
+		return { success: true };
+		// // send verification code email
+		// await fetch('/api/email', {
+		// 	body: JSON.stringify({
+		// 		from: `"No Reply" <abtl.noreply@gmail.com>`,
+		// 		props: {
+		// 			code,
+		// 			user_id: user.id
+		// 		},
+		// 		subject: 'Reset Password - abtl.com',
+		// 		template,
+		// 		to: [email]
+		// 	}),
+		// 	headers: {
+		// 		accept: 'application.json',
+		// 		'content-type': 'application/json'
+		// 	},
+		// 	method: 'POST'
+		// });
 
 		throw redirect(303, '/verify-password');
 	}

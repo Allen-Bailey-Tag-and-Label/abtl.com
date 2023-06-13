@@ -1,12 +1,12 @@
 import { writable } from 'svelte/store';
 
 export default writable({
-	confettiBlur: true,
-	confettiCount: 200,
+	confettiCount: 100,
+	confettiDepthOfField: true,
 	confettiShow: false,
 	confettiXScale: 250,
 	confettiYAnimate: true,
-	confettiYScale: 1000,
+	confettiYScale: 500,
 	confettiZAnimate: false,
 	confettiZScale: 500,
 	darkTheme: {

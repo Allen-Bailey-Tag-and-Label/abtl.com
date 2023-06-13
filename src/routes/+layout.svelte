@@ -1,16 +1,26 @@
 <script>
 	import { page } from '$app/stores';
 	import { theme } from 'sveltewind/stores';
+	import { onMount } from 'svelte';
+	import { fade } from 'svelte/transition';
+	import { twMerge } from 'tailwind-merge';
+	import { Logo } from '$components';
 	import '../app.postcss';
 
+	let mounted = false;
+
+	const input =
+		'hover:ring-offset-primary-500 focus:ring-offset-primary-500 focus:ring-primary-500/[.3] bg-transparent dark:bg-transparent';
+
 	theme.set({
-		a: 'transition-all font-semibold text-current hover:text-white focus:text-white before:hidden bg-gradient-to-r bg-repeat-x bg-left-bottom from-primary-500 to-primary-500 bg-[length:100%_2px] hover:bg-[length:100%_100%] focus:bg-[length:100%_100%]',
-		// a: 'before:z-auto font-semibold before:bg-primary-500 before:h-[2px] before:left-[-.5rem] before:bottom-[-.25rem] before:ring-0 before:translate-x-0 before:w-[0px] hover:before:bg-primary-500 hover:before:left-0 hover:before:w-full hover:before:h-[2px] hover:before:bottom-[-.25rem] focus:before:left-0 focus:before:w-full focus:before:h-[2px] focus:before:bottom-[-.25rem]',
-		button:
-			'rounded-full px-[2rem] bg-primary-500 hover:bg-primary-600 focus:bg-primary-600 focus:ring-primary-500/[.3]',
+		a: 'before:hidden border-primary-500 border-b-2 font-semibold transition duration-200 hover:text-primary-500 hover:border-transparent',
+		button: twMerge(
+			input,
+			'rounded-full px-[2rem] bg-primary-500 dark:bg-primary-500 hover:bg-primary-600 focus:bg-primary-600 focus:ring-primary-500/[.3]'
+		),
 		card: 'dark:bg-gray-800 ring-1 ring-primary-500/[.025] dark:ring-gray-500/[.1] dark:shadow dark:shadow-black/[.7]',
 		checkbox:
-			'hover:ring-offset-primary-500 focus:ring-offset-primary-500 focus:ring-primary-500/[.3]',
+			'peer-focus:ring-primary-500/[.3] peer-focus:ring-offset-primary-500 bg-transparent dark:bg-transparent text-white',
 		checkboxChecked: 'bg-primary-500 dark:bg-primary-500',
 		footer: 'py-[2rem] text-gray-500 dark:text-gray-400 text-center lg:text-left',
 		header:
@@ -21,10 +31,11 @@
 		h4: 'font-serif font-semibold',
 		h5: 'font-serif font-semibold',
 		h6: 'font-serif font-semibold',
-		input:
-			'hover:ring-offset-primary-500 focus:ring-offset-primary-500 focus:ring-primary-500/[.3]',
+		input: input,
 		main: 'overflow-hidden max-w-[100vw]',
-		section: 'lg:py-[10rem]'
+		option: 'bg-white text-gray-700 dark:bg-gray-900 dark:text-white',
+		section: 'lg:py-[10rem]',
+		select: input
 	});
 
 	$: title = [
@@ -42,10 +53,32 @@
 	]
 		.reverse()
 		.join(' - ');
+
+	onMount(() => {
+		mounted = true;
+	});
 </script>
 
 <svelte:head>
 	<title>{title}</title>
 </svelte:head>
 
-<slot />
+<div
+	class="z-[2] fixed top-0 left-0 flex w-[100dvw] h-[100dvh] items-center justify-center bg-primary-500 transition duration-500 ease-in {!mounted
+		? 'translate-y-0'
+		: 'translate-y-full'}"
+>
+	<div
+		class="h-[5rem] transition duration-500 ease-in {!mounted
+			? 'translate-y-0'
+			: 'translate-y-[-200%]'}"
+	>
+		<Logo />
+	</div>
+</div>
+
+{#if mounted}
+	<div in:fade>
+		<slot />
+	</div>
+{/if}

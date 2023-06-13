@@ -27,15 +27,21 @@ export const actions: Actions = {
 		// find default role
 		const [role] = await sql`select id from role WHERE name='user'`;
 
+		// generate random pin
+		const pin = Math.floor(Math.random() * 1000000)
+			.toString()
+			.padStart(6, '0');
+
 		let user;
 		try {
 			// insert into db
 			const users = await sql`
 			insert into ${sql('user')} ${sql(
-				{ email, password: hash, role_ids: [role.id] },
+				{ email, password: hash, role_ids: [role.id], pin },
 				'email',
 				'password',
-				'role_ids'
+				'role_ids',
+				'pin'
 			)} returning *`;
 			user = users[0];
 		} catch (error) {

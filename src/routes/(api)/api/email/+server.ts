@@ -1,24 +1,17 @@
-import { promises as fs } from 'fs';
-import handlebars from 'handlebars';
 import nodemailer from 'nodemailer';
 import { NODEMAILER_PASSWORD } from '$env/static/private';
 
-const getTemplate = async (template: string) => {
-	const html = await fs.readFile(
-		`./src/routes/(email-templates)/email-templates/${template}/html.html`,
-		{ encoding: 'utf-8' }
-	);
-	return html;
-};
-
-const handlebarsReplacements = (html: string, replacements: { [key: string]: any }) => {
-	const template = handlebars.compile(html);
-	const replacedHtml = template(replacements);
-	return replacedHtml;
+const getTemplate = async (template: string, props) => {
+	const component = (
+		await import(`../../../(email-templates)/email-templates/${template}/+page.svelte`)
+	).default;
+	console.log(component);
+	return '';
+	// return html;
 };
 
 export const POST = async ({ request }) => {
-	const { from, replacements, subject, template, to } = await request.json();
+	const { from, props, subject, template, to } = await request.json();
 
 	// setup transporter
 	const transporter = nodemailer.createTransport({
@@ -30,18 +23,17 @@ export const POST = async ({ request }) => {
 	});
 
 	// get html from template
-	const html = handlebarsReplacements(await getTemplate(template), replacements);
-	// const html = await inlineCss(handlebarsReplacements(await getTemplate(template), replacements));
+	const html = await getTemplate(template, props);
 
-	// setup options
-	const options = {
-		html,
-		from,
-		to,
-		subject
-	};
+	// // setup options
+	// const options = {
+	// 	html,
+	// 	from,
+	// 	to,
+	// 	subject
+	// };
 
-	// send email
-	await transporter.sendMail(options);
+	// // send email
+	// await transporter.sendMail(options);
 	return new Response();
 };

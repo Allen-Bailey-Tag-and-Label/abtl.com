@@ -3,13 +3,16 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "vite dev --host --port 1234",
-		"build": "vite build",
-		"preview": "vite preview --host --port 1234",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"css-build": "postcss ./src/app.postcss -o ./src/output.css --minify",
+		"css-dev": "TAILWIND_MODE=watch postcss ./src/app.postcss -o ./src/output.css -w",
+		"dev": "concurrently \"npm run vite-dev\" \"npm run css-build\"",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
-		"format": "prettier --plugin-search-dir . --write ."
+		"format": "prettier --plugin-search-dir . --write .",
+		"vite-build": "vite build",
+		"vite-dev": "vite dev --host --port 1234",
+		"vite-preview": "vite preview --host --port 1234"
 	},
 	"devDependencies": {
 		"@bobthered/tailwindcss-palette-generator": "^3.1.1",
@@ -21,6 +24,7 @@
 		"@typescript-eslint/parser": "^5.45.0",
 		"argon2": "^0.30.3",
 		"autoprefixer": "^10.4.7",
+		"cssnano": "^6.0.1",
 		"eslint": "^8.28.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte": "^2.26.0",
@@ -29,6 +33,7 @@
 		"inline-css": "^4.0.2",
 		"nodemailer": "^6.9.2",
 		"postcss": "^8.4.14",
+		"postcss-cli": "^10.1.0",
 		"postcss-load-config": "^4.0.1",
 		"postgres": "^3.3.4",
 		"prettier": "^2.8.0",

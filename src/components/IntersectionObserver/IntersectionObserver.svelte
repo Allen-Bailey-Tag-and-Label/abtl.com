@@ -3,12 +3,7 @@
 	import { twMerge } from 'tailwind-merge';
 
 	// props (external)
-	export let i = 0;
-	export let once = true;
-	export let threshold = 2 / 3;
-
-	// props (internal)
-	const delays = [
+	export let delays = [
 		'lg:delay-[0ms]',
 		'lg:delay-[500ms]',
 		'lg:delay-[1000ms]',
@@ -31,6 +26,13 @@
 		'lg:delay-[9500ms]',
 		'lg:delay-[10000ms]'
 	];
+	export let i = 0;
+	export let once = true;
+	export let style: undefined | string = undefined;
+	export let threshold = 2 / 3;
+
+	// props (internal)
+
 	let element: HTMLElement;
 	let intersecting: boolean;
 
@@ -43,7 +45,7 @@
 </script>
 
 <IntersectionObserver {...$$restProps} bind:intersecting {element} {once} {threshold}>
-	<div bind:this={element} class={classes}>
+	<div bind:this={element} class={classes} {style}>
 		<slot {intersecting} />
 	</div>
 </IntersectionObserver>

@@ -37,7 +37,7 @@
 			props: {
 				class: 'max-w-[20rem]'
 			},
-			slot: `Over 100 years ( <span class="font-semibold">${yearsInBusiness}</span> to be exact ) experience providing tags and labels for our clients`
+			slot: `Over 100 years experience providing tags and labels for our clients`
 		}
 	];
 </script>

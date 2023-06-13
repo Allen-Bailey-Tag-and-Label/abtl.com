@@ -2,7 +2,7 @@
 	import { browser } from '$app/environment';
 	import { Icon, Icons } from '$components';
 	import { twMerge } from 'tailwind-merge';
-	import settings from '../../routes/settings';
+	import settings from '../../routes/(base)/settings';
 
 	// utilities
 	const timer = (currentTimestamp: number) => {
@@ -41,7 +41,7 @@
 	class={classes}
 	{src}
 	{theme}
-	style="filter: blur({$settings.confettiBlur
+	style="filter: blur({$settings.confettiDepthOfField
 		? blur
 		: 0}px); opacity: {opacity}; top: {top}; transition-duration: {transitionDuration}ms; transition-timing-function: cubic-bezier(0,1,0,1); transform: perspective({scale}px) translateX(calc({x}px)) translateY(calc({y}px)) translateZ({z +
 		zAddition}px) rotate({rotate}deg);"

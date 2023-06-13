@@ -13,7 +13,6 @@
 	// props (external)
 	export let showButton: boolean = true;
 	export let style: undefined | string = undefined;
-	export let submitButton: undefined | string = 'Submit';
 	export let use: any[] = [
 		[
 			enhance,
