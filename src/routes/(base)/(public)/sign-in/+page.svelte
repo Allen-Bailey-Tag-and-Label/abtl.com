@@ -31,7 +31,7 @@
 
 <Section class="min-h-[100dvh] justify-center">
 	<Container>
-		<Form class="max-w-sm mx-auto" let:submitted>
+		<Form let:submitted>
 			<H2>Sign In</H2>
 			<Fieldset legend="Email">
 				<Input bind:value={email} name="email" required type="email" />

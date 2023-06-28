@@ -54,4 +54,30 @@
           "</$1>"
         ]
       },
+      "@toolbarButtonComponent": {
+        "prefix": "@toolbarButtonComponent",
+        "body": [
+          "<script lang=\"ts\">",
+          "\timport { getEvents } from 'sveltewind/actions';",
+          "\timport { current_component } from 'svelte/internal';",
+          "\timport { twMerge } from 'tailwind-merge';",
+          "\timport { Icons } from '\\$components';",
+          "\timport ToolbarButton from './ToolbarButton.svelte';",
+          "\t",
+          "\t// props (internal)",
+          "\tconst events = getEvents(current_component);",
+          "\t",
+          "\t// props (external)",
+          "\texport let style: undefined | string = undefined;",
+          "\texport let use: any[] = [];",
+          "\t$2",
+          "\t// props (dynamic)",
+          "\t\\$: classes = twMerge(\\$\\$props.class);",
+          "</script>",
+          "",
+          "<ToolbarButton class={classes} src={Icons.$1} {style} use={[events, ...use]}>",
+          "\t<slot/>",
+          "</ToolbarButton>"
+        ]
+      },
 }
