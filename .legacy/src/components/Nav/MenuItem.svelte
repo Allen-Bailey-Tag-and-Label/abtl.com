@@ -17,7 +17,7 @@
 	$: classes = twMerge(
 		$theme.button,
 		$theme.a,
-		'bg-transparent dark:bg-transparent hover:bg-transparent focus:bg-transparent hover:text-current',
+		'bg-transparent dark:bg-transparent hover:bg-transparent focus:bg-transparent hover:text-current ring-offset-0',
 		'border-none',
 		'before:block before:h-[2px] before:w-0 before:hover:w-full before:focus:w-0 before:hover:h-[2px] before:focus:h-[2px] before:focus:ring-0 before:bottom-0 before:hover:bottom-0 before:focus:bottom-0 before:origin-left',
 		'text-current text-[1.5rem] justify-start lg:text-[1rem]',

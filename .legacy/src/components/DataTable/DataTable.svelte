@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { Checkbox, Section, Table } from '$components';
+	import { Checkbox, Table } from '$components';
 	import { onMount } from 'svelte';
-	import { Pagination, Search, Tbody, Thead, Toolbar } from './index';
-	import type { Columns, Rows } from './types';
+	import { Pagination, Tbody, Thead, Toolbar } from './index';
+	import type { Columns, Rows, Filters } from './types';
 	import { twMerge } from 'tailwind-merge';
 
 	// utilities
@@ -13,13 +13,17 @@
 	};
 
 	// props (external)
+	export let allowExport: boolean = true;
+	export let allowPaginateCountSetting: boolean = true;
+	export let allowSettings: boolean | undefined = undefined;
 	export let columns: Columns = [];
 	export let editable: boolean = true;
+	export let filters: Filters = [];
+	export let filterable: boolean = true;
 	export let page: number = 0;
 	export let paginate: boolean = true;
 	export let rows: Rows = [];
 	export let rowPaginateCount: number = 10;
-	export let searchable: boolean = true;
 	export let sortable: boolean = true;
 	export let sortOrder: number = 1;
 	export let sortField: undefined | string = undefined;
@@ -29,7 +33,11 @@
 	let rowIndexEnd: number = 0;
 
 	// props (dynamic)
-	$: classes = twMerge('flex-grow flex flex-col', $$props.class);
+	$: if (allowSettings !== undefined) {
+		allowExport = allowSettings;
+		allowPaginateCountSetting = allowSettings;
+	}
+	$: classes = twMerge('flex-grow flex flex-col max-w-full', $$props.class);
 	$: rowIndexStart = paginate ? page * rowPaginateCount : 0;
 	$: rowIndexEnd = paginate ? (page + 1) * rowPaginateCount : Infinity;
 	$: if (sortField || sortOrder) sortRows();
@@ -48,45 +56,41 @@
 			// check if props missing
 			if (column?.props === undefined) column.props = {};
 
-			// check if search missing
-			if (column?.search === undefined) column.search = column?.component === Checkbox ? false : '';
-
-			// check if searchable missing
-			if (column?.searchable === undefined) column.searchable = searchable;
-
 			// check if sortable missing
 			if (column?.sortable === undefined) column.sortable = sortable;
 
 			return column;
 		});
 
+		rowsOriginal = [...rows];
+
 		if (sortable && sortField === undefined) sortField = columns[0].field;
 	});
 </script>
 
 <div class={classes}>
-	<Toolbar bind:rowPaginateCount class="z-[3]" />
-	<!-- <Search bind:columns /> -->
+	<Toolbar
+		{allowExport}
+		{allowPaginateCountSetting}
+		bind:filters
+		bind:rowPaginateCount
+		{columns}
+		{filterable}
+		class="z-[3]"
+	/>
 	<slot>
-		<div class="flex flex-grow overflow-auto items-start">
+		<div class="flex flex-grow max-w-screen overflow-auto items-start">
 			<Table class="w-full">
 				<slot name="thead">
 					<Thead bind:sortOrder bind:sortField {columns} />
 				</slot>
 				<slot name="tbody">
-					<Tbody bind:rows {columns} {rowIndexEnd} {rowIndexStart} />
+					<Tbody bind:rowIndexEnd bind:rowIndexStart bind:rows {columns} />
 				</slot>
 			</Table>
 		</div>
 	</slot>
 	<slot name="pagination">
-		<Pagination
-			bind:page
-			bind:paginate
-			bind:rowIndexStart
-			bind:rowIndexEnd
-			bind:rowPaginateCount
-			{rows}
-		/>
+		<Pagination bind:page bind:paginate bind:rowPaginateCount {rows} />
 	</slot>
 </div>

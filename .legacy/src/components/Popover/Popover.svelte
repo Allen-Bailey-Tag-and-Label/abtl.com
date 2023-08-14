@@ -12,17 +12,17 @@
 
 	// props (dynamic)
 	$: if (position) {
-		if (position === 'bl') positionClasses = 'bottom-0 left-0';
-		if (position === 'br') positionClasses = 'bottom-0 right-0';
-		if (position === 'tl') positionClasses = 'top-0 left-0';
-		if (position === 'tr') positionClasses = 'top-0 right-0';
+		if (position === 'bl') positionClasses = 'bottom-[-.5rem] left-0';
+		if (position === 'br') positionClasses = 'bottom-[-.5rem] right-0';
+		if (position === 'tl') positionClasses = 'top-[-.5rem] left-0';
+		if (position === 'tr') positionClasses = 'top-[-.5rem] right-0';
 	}
 	$: classes = twMerge(
 		$theme.popover,
 		positionClasses,
 		!isOpen
-			? 'opacity-0 pointer-events-none lg:translate-y-[calc(100%_-_.25rem)]'
-			: 'opacity-100 pointer-events-auto lg:translate-y-[100%]',
+			? 'opacity-0 pointer-events-none translate-y-[calc(100%_-_.25rem)]'
+			: 'opacity-100 pointer-events-auto translate-y-[100%]',
 		$$props.class
 	);
 </script>

@@ -27,12 +27,13 @@
 </script>
 
 {#if paginate}
-	<Toolbar class="py-[.5rem] px-[.5rem] space-x-[2rem] items-center justify-between">
-		<div class="flex items-center space-x-[1rem]">
-			<Label>Showing rows</Label>
+	<Toolbar class="py-[.5rem] px-[.5rem] items-center justify-between">
+		<div class="items-center space-x-[1rem] hidden mr-[2rem] lg:flex">
+			<Label class="whitespace-nowrap">Showing rows</Label>
 			<Select bind:value={page} class="text-right" options={paginateOptions} />
+			<Label class="whitespace-nowrap">of {rows.length}</Label>
 		</div>
-		<div class="flex items-center space-x-[.5rem]">
+		<div class="hidden items-center space-x-[.5rem] lg:flex">
 			{#if page > 0}
 				<ToolbarButton.default on:click={() => (page = 0)} src={Icons.ChevronDoubleLeft} />
 				<ToolbarButton.default on:click={() => (page = page - 1)} src={Icons.ChevronLeft} />
@@ -44,6 +45,24 @@
 					src={Icons.ChevronDoubleRight}
 				/>
 			{/if}
+		</div>
+		<div class="flex items-center justify-between w-full lg:hidden">
+			<div class="flex space-x-[.5rem]">
+				{#if page > 0}
+					<ToolbarButton.default on:click={() => (page = 0)} src={Icons.ChevronDoubleLeft} />
+					<ToolbarButton.default on:click={() => (page = page - 1)} src={Icons.ChevronLeft} />
+				{/if}
+			</div>
+			<Select bind:value={page} class="text-right" options={paginateOptions} />
+			<div class="flex space-x-[.5rem]">
+				{#if page < totalPages - 1}
+					<ToolbarButton.default on:click={() => (page = page + 1)} src={Icons.ChevronRight} />
+					<ToolbarButton.default
+						on:click={() => (page = totalPages - 1)}
+						src={Icons.ChevronDoubleRight}
+					/>
+				{/if}
+			</div>
 		</div>
 	</Toolbar>
 {/if}

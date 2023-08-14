@@ -12,7 +12,7 @@
 	{#each columns as { title, field, sortable }}
 		<Th
 			class="transition duration-200 {sortable
-				? 'cursor-pointer hover:bg-primary-500 dark:hover:bg-primary-500 hover:text-white'
+				? 'cursor-pointer ring-1 ring-transparent ring-inset dark:ring-transparent dark:hover:ring-primary-500'
 				: ''}"
 			on:click={() => {
 				if (sortable) {
